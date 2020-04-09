@@ -33,7 +33,7 @@
 			<router-view/>
 		</div>
 		<div class="footer">
-            <p>Copyright 2020 Nathan Fastabend. <a href="https://github.com/NateFastar/Creative3">To the GitHub Repository</a></p>
+            <p>Copyright 2020 Nathan Fastabend. <a href="https://github.com/NateFastar/Creative_4">To the GitHub Repository</a></p>
         </div>
   </div>
   

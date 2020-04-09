@@ -7,9 +7,9 @@
         <div class="card-body">
           <h5 class="card-title" style="font-style:italic">{{project.title}}</h5>
           <p class="card-text">{{project.problem}}.<br/> Reward:${{project.reward}}
-          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="ignore(project)" v-if="$root.$data.user!=null"><span>&#10006;</span></button>
+          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="ignore(project)" v-if="$root.$data.user!=null" disabled><span>&#10006;</span></button>
           <button type="button" class="btn btn-secondary" style="display:block; float:right" v-else disabled><span>&#10006;</span></button>
-          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="participate(project)" v-if="$root.$data.user!=null"><span>&#10004;</span></button>
+          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="participate(project)" v-if="$root.$data.user!=null" disabled><span>&#10004;</span></button>
           <button type="button" class="btn btn-secondary" style="display:block; float:right" v-else disabled><span>&#10004;</span></button>
           </p>
         </div>

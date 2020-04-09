@@ -1,7 +1,7 @@
 <template>
 	<div style="width: 95%">
 		<h1><br/>Accepted Collaborations</h1>
-		<p>It looks like you haven't accepted any projects!</p>
+		<p>Functionality coming soon!</p>
 		<button @click="logout" class="pure-button pure-button-primary">Logout</button>
 	</div>
 </template>

@@ -1,8 +1,11 @@
 <template>
 	<div style="width: 95%">
 		<h1><br/>Current Collaborations</h1>
-		<center><div class="alert alert-danger" role="alert" v-show="this.$root.$data.user==null" style="width: 50%">
+		<center><div class="alert alert-danger" role="alert" v-if="this.$root.$data.user==null" style="width: 50%">
                 You're not signed in! You can't collaborate without first signing in or creating a collaboration account!
+            </div>
+			<div class="alert alert-danger" role="alert" v-else style="width: 50%">
+                Accepting projects temporarily disabled, contact the project sponsor to participate!
             </div></center>
 		<div class="wrapper">
 			<div class="search">
@@ -22,9 +25,11 @@
         <form class="pure-form" v-if="creating" @submit.prevent="addProject">
           <legend>Describe your project for the community.</legend>
           <fieldset>
-
+			<label style="margin-top: 10px">Project Title:</label>
             <textarea v-model="title"></textarea>
+			<label style="margin-top: 10px">Project Description:</label>
             <textarea v-model="problem"></textarea>
+			<label style="margin-top: 10px">Reward:</label>
 			<textarea v-model="reward"></textarea>
             <br />
             <button @click="cancelCreating" class="pure-button space-right">Cancel</button>

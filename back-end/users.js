@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   description: String,
   email: String,
   password: String,
+  accepted: [String],
   role: {
     type: String,
     default: "Collaborator"
@@ -203,6 +204,22 @@ router.delete("/", validUser, async (req, res) => {
     console.log(error);
     return res.sendStatus(500);
   }
+});
+
+router.put("/add", validUser, async(req, res) => {
+	try{
+		user = await User.findOne({
+			_id: req.user._id
+		})
+		user.accepted.add(req.body.projectID);
+		await user.save();
+		return res.send({
+			user: user
+		})
+	} catch(error) {
+		console.log(error);
+		return res.sendStatus(500);
+	}
 });
 
 module.exports = {

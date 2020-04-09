@@ -5,11 +5,14 @@ const argon2 = require("argon2");
 const router = express.Router();
 
 const userSchema = new mongoose.Schema({
-  avatar: String,
+  avatar: {
+	  type: String,
+	  default: "@images/profile-placeholder.jpg"
+  },
   firstName: String,
   lastName: String,
   description: String,
-  username: String,
+  email: String,
   password: String,
   role: {
     type: String,
@@ -89,9 +92,9 @@ router.post('/', async (req, res) => {
   // Make sure that the form coming from the browser includes a username and a
   // passsword, otherwise return an error. A 400 error means the request was
   // malformed.
-  if (!req.body.username || !req.body.password)
+  if (!req.body.email || !req.body.password)
     return res.status(400).send({
-      message: "username and password are required"
+      message: "email and password are required"
     });
 
   try {
@@ -99,7 +102,7 @@ router.post('/', async (req, res) => {
     //  Check to see if username already exists and if not send a 403 error. A 403
     // error means permission denied.
     const existingUser = await User.findOne({
-      username: req.body.username
+      email: req.body.email
     });
     if (existingUser)
       return res.status(403).send({
@@ -108,10 +111,12 @@ router.post('/', async (req, res) => {
 
     // create a new user and save it to the database
     const user = new User({
+      avatar: req.body.avatar,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      username: req.body.username,
-      password: req.body.password
+      email: req.body.email,
+      password: req.body.password,
+	  role: req.body.role
     });
     await user.save();
     // set user session info
@@ -130,25 +135,27 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   // Make sure that the form coming from the browser includes a username and a
   // password, otherwise return an error.
-  if (!req.body.username || !req.body.password)
-    return res.sendStatus(400);
+  if (!req.body.email || !req.body.password)
+    return res.status(400).send({
+      message: "email and password are required"
+    });
 
   try {
     //  lookup user record
     const user = await User.findOne({
-      username: req.body.username
+      email: req.body.email
     });
     // Return an error if user does not exist.
     if (!user)
       return res.status(403).send({
-        message: "username or password is wrong"
+        message: "email or password is wrong"
       });
 
     // Return the SAME error if the password is wrong. This ensure we don't
     // leak any information about which users exist.
     if (!await user.comparePassword(req.body.password))
       return res.status(403).send({
-        message: "username or password is wrong"
+        message: "email or password is wrong"
       });
 
     // set user session info
@@ -167,6 +174,19 @@ router.get('/', validUser, async (req, res) => {
   try {
     res.send({
       user: req.user
+    });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+//get list of all users
+router.get('/users', async (req, res) => {
+  try {
+    let users = await User.find();
+    return res.send({
+      users: users
     });
   } catch (error) {
     console.log(error);

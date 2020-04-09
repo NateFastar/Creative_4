@@ -7,12 +7,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
 
-import user from './assets/users.js'
-import project from './assets/projects.js'
-
 let data = {
-  users: user,
-  projects: project,
+  user: null,
+  users: null,
+  projects: null,
   signIn: false,
   accepted: 0
 }

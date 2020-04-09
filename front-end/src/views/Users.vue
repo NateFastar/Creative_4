@@ -8,6 +8,7 @@
 			</div>
 		</div>
 		<UserList :users="users" />
+		<p v-if="users.length==0">There's noone here yet</p>
 	</div>
 </template>
 
@@ -46,6 +47,7 @@ input {
 </style>
 
 <script>
+import axios from 'axios';
 import UserList from "../components/UserList.vue"
 export default {
   name: 'Users',
@@ -57,10 +59,25 @@ export default {
       searchText: '',
     }
   },
+  created() {
+    this.getUsers();
+  },
   computed: {
 	users() {
-		return this.$root.$data.users.filter(user => (user.first_name.toLowerCase().search(this.searchText) >= 0 || user.last_name.toLowerCase().search(this.searchText) >= 0 || user.description.toLowerCase().search(this.searchText) >= 0));
+		if(this.$root.$data.users != null)return this.$root.$data.users.filter(user => (user.firstName.toLowerCase().search(this.searchText) >= 0 || user.lastName.toLowerCase().search(this.searchText) >= 0 || user.description.toLowerCase().search(this.searchText) >= 0));
+		else return this.$root.$data.users;
 	}
   },
+  methods: {
+    async getUsers() {
+      try {
+        let response = await axios.get("/api/users/users");
+        this.$root.$data.users = response.data.users;
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  }
 }
 </script>

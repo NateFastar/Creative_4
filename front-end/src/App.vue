@@ -14,16 +14,16 @@
                         <router-link to="/" class="nav-link">Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/projects" class="nav-link">Current Collaborations: {{$root.$data.projects.length}}</router-link>
+                        <router-link to="/projects" class="nav-link">Current Collaborations: {{this.$root.$data.projects.length}}</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/users" class="nav-link">Get Help</router-link>
                     </li>
-                    <li v-if="$root.$data.signIn" class="nav-item">
-                        <router-link to="/current" class="nav-link">Accepted Projects: {{$root.$data.accepted}}</router-link>
+                    <li v-if="$root.$data.user != null" class="nav-item">
+                        <router-link to="/current" class="nav-link">Accepted Projects: N/A</router-link>
                     </li>
 					<li v-else class="nav-item">
-                        <router-link to="/new" class="nav-link">Join</router-link>
+                        <router-link to="/new" class="nav-link">Join/Sign In</router-link>
                     </li>
                 </ul>
 				</strong>
@@ -86,3 +86,31 @@
     color: #000000;
 }
 </style>
+<script>
+import axios from 'axios';
+export default {
+  name: 'App',
+  async created() {
+    try {
+      let response = await axios.get('/api/users');
+      this.$root.$data.user = response.data.user;
+    } catch (error) {
+      this.$root.$data.user = null;
+    }
+	try {
+      let response = await axios.get("/api/projects");
+      this.$root.$data.projects = response.data.projects;
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+	try {
+        let response = await axios.get("/api/users/users");
+        this.$root.$data.users = response.data.users;
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+  },
+}
+</script>

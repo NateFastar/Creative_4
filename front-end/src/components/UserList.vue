@@ -6,7 +6,7 @@
         <img :src="user.avatar">
       </div>
       <div class="info">
-        <h1>{{user.first_name}} {{user.last_name}}</h1>
+        <h1>{{user.firstName}} {{user.lastName}}</h1>
         <p>{{user.description}}</p>
       </div>
     </div>

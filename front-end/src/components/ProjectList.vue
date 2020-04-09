@@ -5,11 +5,11 @@
       <div class="card">
         <h5 class="card-header" v-bind:class="projectType(project.type)">{{projectType(project.type)}} Project</h5>
         <div class="card-body">
-          <h5 class="card-title" style="font-style:italic">{{project.company}}</h5>
-          <p class="card-text">{{project.description}}.<br/> Reward:${{project.reward}}
-          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="ignore(project)" v-if="$root.$data.signIn"><span>&#10006;</span></button>
+          <h5 class="card-title" style="font-style:italic">{{project.title}}</h5>
+          <p class="card-text">{{project.problem}}.<br/> Reward:${{project.reward}}
+          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="ignore(project)" v-if="$root.$data.user!=null"><span>&#10006;</span></button>
           <button type="button" class="btn btn-secondary" style="display:block; float:right" v-else disabled><span>&#10006;</span></button>
-          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="participate(project)" v-if="$root.$data.signIn"><span>&#10004;</span></button>
+          <button type="button" class="btn btn-secondary" style="display:block; float:right" v-on:click="participate(project)" v-if="$root.$data.user!=null"><span>&#10004;</span></button>
           <button type="button" class="btn btn-secondary" style="display:block; float:right" v-else disabled><span>&#10004;</span></button>
           </p>
         </div>
@@ -38,10 +38,10 @@ export default {
       item.status = 2;
     },
 	projectType(type) {
-      if(type == 1) return "Community";
-      if(type == 2) return "Personal";
-      if(type == 3) return "Service";
-      if(type == 4) return "Funded";
+      if(type == "Admin") return "Community";
+      if(type == "Collaborator") return "Personal";
+      if(type == "Service") return "Service";
+      if(type == "Corporate") return "Funded";
       else return "Funded";
 	}
   }
